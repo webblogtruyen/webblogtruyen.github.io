@@ -64,7 +64,7 @@
 		app.database().ref("list_story").on("child_added", function(data) {
 			var name = data.val().name
 			var author = data.val().author
-			document.getElementById("list"). innerHTML += '<div class="card" style="width: auto;"><div class="card-body"><h5 class="card-title">'+name+'</h5><p class="card-text">Tác giả :'+author+'</p><button onclick=read("'+name+'","'+author+'") class="btn btn-primary">Go to</button></div></div> <br>'
+			document.getElementById("list"). innerHTML += '<div class="card" style="width: auto;"><div class="card-body"><h5 class="card-title">'+name+'</h5><p class="card-text">Tác giả :'+author+'</p><button onclick=read("'+name+'") class="btn btn-primary">Go to</button></div></div> <br>'
 		})
 		function read(name, author) {
 			sessionStorage.setItem("name", name)
