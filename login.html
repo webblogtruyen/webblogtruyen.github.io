@@ -67,11 +67,7 @@
 		measurementId: "G-S98PR88S02"
 	};
 	const app = firebase.initializeApp(firebaseConfig);
-	app.database().ref("acc").push({
-		"mail":"smtdfc.master@gmail.com",
-		"password":"1234",
-		"name":"sang"
-	})
+
 	function login(){
 		var mail = document.getElementById("Email"). value
 		var password = document.getElementById("Password").value
