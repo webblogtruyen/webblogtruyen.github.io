@@ -66,9 +66,9 @@
 			var author = data.val().author
 			document.getElementById("list"). innerHTML += '<div class="card" style="width: auto;"><div class="card-body"><h5 class="card-title">'+name+'</h5><p class="card-text">Tác giả :'+author+'</p><button onclick=read("'+name+'") class="btn btn-primary">Go to</button></div></div> <br>'
 		})
-		function read(name, author) {
+		function read(name) {
 			sessionStorage.setItem("name", name)
-			sessionStorage.setItem("author", author)
+		
 			sessionStorage.setItem("chap", "index")
 			window.location = "read.html"
 		}
