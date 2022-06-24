@@ -9,8 +9,16 @@
 <body>
 	<style>
 		div {
-			white-space: pre-grap;
+			white-space: pre-wrap;
+			opacity: 0.9;
 		}
+		img{
+			position: fixed;
+			height: 100%;
+		}
+	</style>
+	<style>
+		
 	</style>
 	<nav class="navbar bg-light fixed-top">
 		<div class="container-fluid">
@@ -37,7 +45,7 @@
 			</div>
 		</div>
 	</nav>
-	<br><br><br><br>
+	<br><br><br><br><br><br><img src="https://pm1.narvii.com/7546/58c15bbf0ee22af515f761aa321c1250c280f2a1r1-1080-1466v2_hq.jpg"><br><br>
 	<main class="container">
 		<div id="info">
 
@@ -58,31 +66,35 @@
 			measurementId: "G-MC7XVNHC2N"
 		};
 		const app = firebase.initializeApp(firebaseConfig);
+
 		if (sessionStorage.getItem("name") == undefined || sessionStorage.getItem("name") == "" || sessionStorage.getItem("name") == null) {
 			window.location = "home.html"
 		} else {
 			var name = sessionStorage.getItem("name")
 			var chap = sessionStorage.getItem("chap")
-			var author = sessionStorage.getItem("author")
-			if (sessionStorage.getItem("chap") == "index") {
-				app.database().ref("list_story_story_"+sessionStorage.getItem("name")+"_index").on("child_added", function(data) {
-					var chap = data.val().chap
-					document.getElementById("info"). innerHTML += '<div class="card" style="width: auto;"><div class="card-body"><h5 class="card-title">'+name+'</h5><p class="card-text">Tập :'+chap+'</p><button onclick=read_chap("'+name+'","'+chap+'") class="btn btn-primary">Go to</button></div></div> <br>'
-				})
-			} else {
-				app.database().ref("list_story_story_"+name+"_content_chap_"+sessionStorage.getItem("chap")).on("child_added", function(data) {
-					document.getElementById("info").innerHTML = data.val().content
-				})
-			}
-			sessionStorage.setItem("name", "")
-			sessionStorage.setItem("chap", "")
-		}
-		function read_chap(name, chap, author) {
-			sessionStorage.setItem("name", name)
 
-			sessionStorage.setItem("chap", chap)
-			window.location = "read.html"
+			app.database().ref("list_story_story_"+name+"_content_chap_"+chap).on("child_added", function(data) {
+				document.getElementById("info").innerHTML =""
+			var card = document.createElement("div")
+			card.classList.add("card")
+			card.style.width = "auto"
+			var card_body = document.createElement("div")
+			card_body.classList.add("card-body")
+			card.appendChild(card_body)
+			var card_title = document.createElement("h5")
+			card_title.classList.add("card-title")
+			card_title.textContent = name
+			card_body.appendChild(card_title)
+			var card_text = document.createElement("p")
+			card_text.classList.add("card-text")
+			card_text.innerHTML = 'Tập :'+chap
+			card_text.innerHTML +='<br><hr>'+data.val(). content
+			card_body.appendChild(card_text)
+			document.getElementById("info").appendChild (card)
+			})
 		}
+		//8₫₫8
+
 	</script>
 </body>
 </html>

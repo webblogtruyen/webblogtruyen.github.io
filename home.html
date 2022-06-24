@@ -7,6 +7,17 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
 </head>
 <body>
+	<style>
+		div {
+			white-space: pre-wrap;
+			opacity: 0.9;
+		}
+		img {
+			position: fixed;
+			height: 100%;
+		}
+	</style>
+
 	<nav class="navbar bg-light fixed-top">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="#">Blog truyện</a>
@@ -33,12 +44,14 @@
 		</div>
 	</nav>
 	Loading....
-	<br><br><br><br>
+	<br><br><br><br><img src="https://pm1.narvii.com/7546/58c15bbf0ee22af515f761aa321c1250c280f2a1r1-1080-1466v2_hq.jpg">
 	<main class="container">
-		<h2>Lựa chọn truyện mà bạn muốn</h2>
-		<br><br>
+
 		<div id="list">
-			Đang tải . . .
+			<div class="card">
+				<h2>Lựa chọn truyện mà bạn muốn</h2>
+			</div>
+
 		</div>
 	</main>
 	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -57,21 +70,42 @@
 			appId: "1:331141480389:web:62fee131ecbab15b2ed5ac",
 			measurementId: "G-MC7XVNHC2N"
 		};
-
-		// Initialize Firebase
 		const app = firebase.initializeApp(firebaseConfig);
-
 		app.database().ref("list_story").on("child_added", function(data) {
 			var name = data.val().name
+			var chap = data.val().chap
 			var author = data.val().author
-			document.getElementById("list"). innerHTML += '<div class="card" style="width: auto;"><div class="card-body"><h5 class="card-title">'+name+'</h5><p class="card-text">Tác giả :'+author+'</p><button onclick=read("'+name+'") class="btn btn-primary">Go to</button></div></div> <br>'
+			//document.getElementById("list"). innerHTML +='<button onclick=read(\''+name+'\') >Goto</button>'
+			var card = document.createElement("div")
+			card.classList.add("card")
+			card.style.width = "auto"
+			var card_body = document.createElement("div")
+			card_body.classList.add("card-body")
+			card.appendChild(card_body)
+			var card_title = document.createElement("h5")
+			card_title.classList.add("card-title")
+			card_title.textContent = name
+			card_body.appendChild(card_title)
+			var card_text = document.createElement("p")
+			card_text.classList.add("card-text")
+			card_text.innerHTML = "Tác giả :"+author+'<br>Tập :'+chap
+			card_body.appendChild(card_text)
+			var button = document.createElement("button")
+			button.classList.add("btn")
+			button.classList.add("btn-primary")
+			button.textContent = "Xem"
+			button.onclick = function() {
+				sessionStorage.setItem("name", name)
+				//sessionStorage.setItem("author",author)
+				sessionStorage.setItem("chap", chap)
+				window.location = "read.html"
+			}
+			card_body.appendChild(button)
+
+			document.getElementById("list").appendChild(card)
+			document.getElementById("list").appendChild(document.createElement("br"))
 		})
-		function read(name) {
-			sessionStorage.setItem("name", name)
-		
-			sessionStorage.setItem("chap", "index")
-			window.location = "read.html"
-		}
+
 	</script>
 </body>
 </html>
