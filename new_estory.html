@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
+</head>
+<body>
+	<nav class="navbar bg-light fixed-top">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#">Blog truyện</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+				<div class="offcanvas-header">
+					<h5 class="offcanvas-title" id="offcanvasNavbarLabel">Blog truyện</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+				</div>
+				<div class="offcanvas-body">
+					<ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+						<li class="nav-item">
+							<a class="nav-link active" aria-current="page" href="#">Home</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#"></a>
+						</li>
+
+					</ul>
+				</div>
+			</div>
+		</div>
+	</nav>
+	<br><br><br><br>
+	<main class="container">
+
+		<div class="form-group">
+			<h2>Tạo tập cho truyện</h2>
+			<label>Story Name</label>
+			<select id="story">
+			</select><br><br>
+			<input type="text" id="chap" placeholder="chap name">
+			<br><br>
+			<textarea id="content" placeholder="Nội dung truyện"></textarea>
+			<br><br>
+		</div>
+		<br><br>
+		<button onclick="create()" class="btn btn-primary">Submit</button>
+	</main>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+	<script src="./init-firebase.js"></script>
+	<script>
+		var author = sessionStorage.getItem("author")
+		if (author == null || author == "" || sessionStorage.getItem("mail") == undefined || sessionStorage.getItem("mail") == "" || sessionStorage.getItem("mail") == null) {
+			window.location = "login.html"
+		}
+		sessionStorage.setItem("name", "")
+		sessionStorage.setItem("chap", "")
+		const firebaseConfig = {
+			apiKey: "AIzaSyCIU1TaQK832sosG8sRGBmH6byQYC1QMJc",
+			authDomain: "story-a7828.firebaseapp.com",
+			projectId: "story-a7828",
+			storageBucket: "story-a7828.appspot.com",
+			messagingSenderId: "331141480389",
+			appId: "1:331141480389:web:62fee131ecbab15b2ed5ac",
+			measurementId: "G-MC7XVNHC2N"
+		};
+		var author = sessionStorage.getItem("author")
+		alert(author)
+		const app = firebase.initializeApp(firebaseConfig);
+		app.database().ref("list_story").on("child_added", function(data) {
+			if (data.val().author == author) {
+				document.getElementById("story"). innerHTML += "<option >"+data.val().name+"</option>"
+			}
+		})
+		function create() {
+			var chap = document.getElementById("chap"). value
+			var story = document.getElementById("story").value
+			var content = document.getElementById("content"). value
+			alert(content)
+			content = content.replace("\n","<br>")
+			document.getElementsByClassName("container").innerHTML ="Vui lòng chờ . . . ."
+			if (story == "" || story == " " || story == null) {
+				alert("Bạn hãy nhập tên truyện")
+				return
+			}
+			if (chap == "" || chap == " ") {
+				alert("Bạn hãy nhập tên tập của truyện")
+				return
+			}
+			app.database().ref("list_story_story_"+story+"_index").push({
+				"chap":chap
+			})
+			app.database().ref('list_story_story_'+story+"_content_chap_"+chap).push({
+				"content":content
+			})
+			
+			window.location ="write.html"
+		}
+	</script>
+</body>
+</html>

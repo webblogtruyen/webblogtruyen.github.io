@@ -1,0 +1,41 @@
+Creating. . . .
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+<script src="./init-firebase.js"></script>
+<script>
+	sessionStorage.setItem("name", "")
+	sessionStorage.setItem("chap", "")
+	const firebaseConfig = {
+		apiKey: "AIzaSyCIU1TaQK832sosG8sRGBmH6byQYC1QMJc",
+		authDomain: "story-a7828.firebaseapp.com",
+		projectId: "story-a7828",
+		storageBucket: "story-a7828.appspot.com",
+		messagingSenderId: "331141480389",
+		appId: "1:331141480389:web:62fee131ecbab15b2ed5ac",
+		measurementId: "G-MC7XVNHC2N"
+	};
+
+	// Initialize Firebase
+	//const app = firebase.initializeApp(firebaseConfig);
+	if (sessionStorage.getItem("process_name") == undefined || sessionStorage.getItem("process_name") == "" || sessionStorage.getItem("process_name") == null) {
+		alert("Lỗi : Không thể tạo nội dung . Hãy kiểm tra kết nối mạng hoặc kiểm tra lại tên . Rất có thể Truyện đã được một tác giả khác sáng tác . Để tránh nội dùng bản quyền chúng tôi yêu cầu bạn đặt tên khác !")
+		//	window.location.reload()
+		window.location = "write.html"
+	}
+	const app = firebase.initializeApp(firebaseConfig);
+	var story= sessionStorage.getItem("process_name")
+	var author = sessionStorage.getItem("process_author")
+	
+	app.database().ref("list_story").push({
+		"name": story,
+		"author": author
+	})
+	setInterval (function(){
+	
+	window.location = "write.html"
+	},5000)
+	sessionStorage.setItem("process_name", "")
+	sessionStorage.setItem("process_author", "")
+
+</script>
