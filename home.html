@@ -31,13 +31,14 @@
 				</div>
 			</div>
 		</div>
-	</nav>Loading....
+	</nav>
+	Loading....
 	<br><br><br><br>
 	<main class="container">
 		<h2>Lựa chọn truyện mà bạn muốn</h2>
 		<br><br>
 		<div id="list">
-			Đang tải . . . 
+			Đang tải . . .
 		</div>
 	</main>
 	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -45,8 +46,8 @@
 	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 	<script src="./init-firebase.js"></script>
 	<script>
-		sessionStorage.setItem("name","")
-		sessionStorage.setItem("chap","")
+		sessionStorage.setItem("name", "")
+		sessionStorage.setItem("chap", "")
 		const firebaseConfig = {
 			apiKey: "AIzaSyCIU1TaQK832sosG8sRGBmH6byQYC1QMJc",
 			authDomain: "story-a7828.firebaseapp.com",
@@ -60,16 +61,16 @@
 		// Initialize Firebase
 		const app = firebase.initializeApp(firebaseConfig);
 
-		app.database().ref("list_story").on("child_added",function(data){
+		app.database().ref("list_story").on("child_added", function(data) {
 			var name = data.val().name
 			var author = data.val().author
-			document.getElementById("list"). innerHTML +='<div class="card" style="width: auto;"><div class="card-body"><h5 class="card-title">'+name+'</h5><p class="card-text">Tác giả :'+author+'</p><button onclick=read("'+name+'","'+author+'") class="btn btn-primary">Go to</button></div></div> <br>'
+			document.getElementById("list"). innerHTML += '<div class="card" style="width: auto;"><div class="card-body"><h5 class="card-title">'+name+'</h5><p class="card-text">Tác giả :'+author+'</p><button onclick=read("'+name+'","'+author+'") class="btn btn-primary">Go to</button></div></div> <br>'
 		})
-		function read(name,author){
-			sessionStorage.setItem("name",name)
-			sessionStorage.setItem("author",author)
-			sessionStorage.setItem("chap","index")
-			window.location ="read.html"
+		function read(name, author) {
+			sessionStorage.setItem("name", name)
+			sessionStorage.setItem("author", author)
+			sessionStorage.setItem("chap", "index")
+			window.location = "read.html"
 		}
 	</script>
 </body>
