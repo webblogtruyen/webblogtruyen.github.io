@@ -44,8 +44,8 @@
 		</div>
 	</nav>
 	Loading....
-	<br><br><br><br><img src="https://pm1.narvii.com/7546/58c15bbf0ee22af515f761aa321c1250c280f2a1r1-1080-1466v2_hq.jpg">
-	<main class="container">
+	<br><br><br><img id="bg">
+	<div class="container">
 
 		<div id="list">
 			<div class="card">
@@ -71,6 +71,9 @@
 			measurementId: "G-MC7XVNHC2N"
 		};
 		const app = firebase.initializeApp(firebaseConfig);
+		app.database().ref("image").on("child_added", function(data) {
+			document.getElementById("bg").src = data.val().link
+		})
 		app.database().ref("list_story").on("child_added", function(data) {
 			var name = data.val().name
 			var chap = data.val().chap
@@ -107,5 +110,6 @@
 		})
 
 	</script>
+
 </body>
 </html>

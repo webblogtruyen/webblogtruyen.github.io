@@ -12,13 +12,13 @@
 			white-space: pre-wrap;
 			opacity: 0.9;
 		}
-		img{
+		img {
 			position: fixed;
 			height: 100%;
 		}
 	</style>
 	<style>
-		
+
 	</style>
 	<nav class="navbar bg-light fixed-top">
 		<div class="container-fluid">
@@ -45,11 +45,13 @@
 			</div>
 		</div>
 	</nav>
-	<br><br><br><br><br><br><img src="https://pm1.narvii.com/7546/58c15bbf0ee22af515f761aa321c1250c280f2a1r1-1080-1466v2_hq.jpg"><br><br>
+	<br><br><br><br><br><br><!--<img src="https://pm1.narvii.com/7546/58c15bbf0ee22af515f761aa321c1250c280f2a1r1-1080-1466v2_hq.jpg"><br><br>--->
+	<img id="bg">
 	<main class="container">
 		<div id="info">
 
 		</div>
+		<br><br>
 	</main>
 	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
@@ -65,8 +67,22 @@
 			appId: "1:331141480389:web:62fee131ecbab15b2ed5ac",
 			measurementId: "G-MC7XVNHC2N"
 		};
-		const app = firebase.initializeApp(firebaseConfig);
 
+		const app = firebase.initializeApp(firebaseConfig);
+		app.database().ref("image").on("child_added",function(data){
+			document.getElementById("bg").src =data.val().link
+		})
+		// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+		//const firebaseConfig_comment_app = {
+			apiKey: "AIzaSyC3HDNjWjJAdK5_6BU4JY0G8CVgGZIZ5mI",
+			authDomain: "story-comment.firebaseapp.com",
+			projectId: "story-comment",
+			storageBucket: "story-comment.appspot.com",
+			messagingSenderId: "741926667683",
+			appId: "1:741926667683:web:e4c73f1f1ab3af50d4c616",
+			measurementId: "G-CSZ04EGRCZ"
+		};
+		//const comment_app = firebase.initializeApp(firebaseConfig_comment_app, "second")
 		if (sessionStorage.getItem("name") == undefined || sessionStorage.getItem("name") == "" || sessionStorage.getItem("name") == null) {
 			window.location = "home.html"
 		} else {
@@ -74,27 +90,29 @@
 			var chap = sessionStorage.getItem("chap")
 
 			app.database().ref("list_story_story_"+name+"_content_chap_"+chap).on("child_added", function(data) {
-				document.getElementById("info").innerHTML =""
-			var card = document.createElement("div")
-			card.classList.add("card")
-			card.style.width = "auto"
-			var card_body = document.createElement("div")
-			card_body.classList.add("card-body")
-			card.appendChild(card_body)
-			var card_title = document.createElement("h5")
-			card_title.classList.add("card-title")
-			card_title.textContent = name
-			card_body.appendChild(card_title)
-			var card_text = document.createElement("p")
-			card_text.classList.add("card-text")
-			card_text.innerHTML = 'Tập :'+chap
-			card_text.innerHTML +='<br><hr>'+data.val(). content
-			card_body.appendChild(card_text)
-			document.getElementById("info").appendChild (card)
+				document.getElementById("info").innerHTML = ""
+				var card = document.createElement("div")
+				card.classList.add("card")
+				card.style.width = "auto"
+				var card_body = document.createElement("div")
+				card_body.classList.add("card-body")
+				card.appendChild(card_body)
+				var card_title = document.createElement("h5")
+				card_title.classList.add("card-title")
+				card_title.textContent = name
+				card_body.appendChild(card_title)
+				var card_text = document.createElement("p")
+				card_text.classList.add("card-text")
+				card_text.innerHTML = 'Tập :'+chap
+				card_text.innerHTML += '<br><hr>'+data.val(). content
+				card_body.appendChild(card_text)
+				document.getElementById("info").appendChild (card)
+			})
+
+			comment_app.database().ref("comment_for_chap_"+chap+"_of_"+name).on("child_added", function(data) {
+				document.getElementById("list_comment").innerHTML += data.val().name+":"+data.val().comment
 			})
 		}
-		//8₫₫8
-
 	</script>
 </body>
 </html>

@@ -1,0 +1,40 @@
+<div id="bg"></div>
+<textarea id="link" placeholder="Link image"></textarea>
+<button onclick="set_image()">Set Image</button>
+<style>
+	img {
+		width: 300px;
+		height: 300px;
+	}
+</style>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+<script src="./init-firebase.js"></script>
+<script>
+	var author = sessionStorage.getItem("author")
+	if (author == null || author == "" || sessionStorage.getItem("mail") == undefined || sessionStorage.getItem("mail") == "" || sessionStorage.getItem("mail") == null) {
+		window.location = "login.html"
+	}
+	const firebaseConfig = {
+		apiKey: "AIzaSyCIU1TaQK832sosG8sRGBmH6byQYC1QMJc",
+		authDomain: "story-a7828.firebaseapp.com",
+		projectId: "story-a7828",
+		storageBucket: "story-a7828.appspot.com",
+		messagingSenderId: "331141480389",
+		appId: "1:331141480389:web:62fee131ecbab15b2ed5ac",
+		measurementId: "G-MC7XVNHC2N"
+	};
+	const app = firebase.initializeApp(firebaseConfig);
+	app.database().ref("image").on("child_added", function(data) {
+		var img = document.createElement("img")
+		img.src = data.val().link
+		document.getElementById("bg").appendChild(img)
+	})
+	function set_image() {
+		var link = document.getElementById("link"). value
+		app.database().ref("image").push({
+			"link": link
+		})
+	}
+</script>
