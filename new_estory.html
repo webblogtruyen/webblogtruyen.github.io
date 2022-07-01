@@ -47,6 +47,11 @@
 			<h2>Tạo nội dung truyện</h2>
 			<label>Tên truyện</label>
 			<input type="text" id="story"><br><br>
+			<select id="category">
+				<option >kiếm hiệp</option>
+				<option >tiểu thuyết</option>
+				<option >anime</option>
+			</select>
 			<input value="0" type="text" id="chap" placeholder="tên tập (Nếu tạo là một câu truyện mới nên để là tập 0)"><br><br>
 			<input style="width: auto;" type="text" id="code" placeholder="Code định danh (CODE NÀY SẼ PHÂN BIỆT TRUYỆN CỦA BẠN VỚI NHỮNG NGƯỜI KHÁC)">
 			<br><br>
@@ -83,14 +88,16 @@
 		function create() {
 			var chap = document.getElementById("chap"). value
 			var story = document.getElementById("story").value
+			var category = document.getElementById("category").value
 			if (chap.includes(".")) {
 				alert("Tên của tập không được phép có kí tự . # [{}]();:")
 				return 0
 			}
+
 			var code = document.getElementById("code").value
 			var content = document.getElementById("content"). value
 			content = content.replace("\n", "<br>")
-			document.getElementsByClassName("container").innerHTML = "Vui lòng chờ . . . ."
+			document.getElementsByClassName("container"). hidden = "hidden" 
 			if (story == "" || story == " " || story == null) {
 				alert("Bạn hãy nhập tên truyện")
 				return
@@ -103,7 +110,8 @@
 				"chap": chap,
 				"name": story,
 				"code": code,
-				"author": author
+				"author": author,
+				"category":category
 			})
 			app.database().ref('list_story_story_'+story+"_content_chap_"+chap).push({
 				"content": content

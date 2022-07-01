@@ -44,12 +44,16 @@
 			<i class="bi bi-cloud-plus"></i>
 			Đăng ký xuất bản
 		</a><br><br>
+		<a href="bg.html" class="btn btn-primary">
+			<i class="bi bi-cloud-plus"></i>
+			Chỉnh ảnh nền trang web
+		</a><br><br>
 		<h2>List of stories you wrote </h2>
 		<div id="info">
 
 		</div>
 		<br>
-		<h2 >Danh sách ID xuất bản của bạn đã đăng ký </h2>
+		<h2>Danh sách ID xuất bản của bạn đã đăng ký </h2>
 		<div id="list_id"></div>
 	</main>
 	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -93,7 +97,7 @@
 					card_text.classList.add("card-text")
 					card_text.innerHTML = "Tác giả :"+author_main +"<br>Tên truyện :"+story
 					card_body.appendChild(card_text)
-					
+
 					document.getElementById("list_id").appendChild(card)
 					document.getElementById("list_id").appendChild(document.createElement("br"))
 				}
